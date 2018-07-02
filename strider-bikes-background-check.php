@@ -152,13 +152,12 @@ class Strider_Bikes_Background_Check{
     // checks to see if A) the page is supposed to lock out users B) if the user has passed the bg check, if so it returns true, if
     // not it returns false
     function lp_unlock_check_ze_page($cPageId){
-        $cUser = learn_press_get_current_user();
+        $uId = get_current_user_id();
         $lockVar = get_post_meta($cPageId, 'sb_bg_lock_until_passed_check', true);
         $isUnlocked = true;
         if($lockVar<1){
             return $isUnlocked;
         } else {
-            $uID = $cUser->ID;
             $bgStatus = get_user_meta($uID, 'user_bg_check_passed', true);
             if ($bgStatus == 0){
                 $isUnlocked = false;
