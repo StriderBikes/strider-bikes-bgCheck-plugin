@@ -166,8 +166,7 @@ class Strider_Bikes_Background_Check{
         return $isUnlocked;
     }
     function lp_unlock_check_ze_page2($cPageId){
-            $cUser = learn_press_get_current_user();
-            $uID = $cUser->ID;
+            $uID = get_current_user_id();
             $lockVar = get_post_meta($cPageId, 'sb_bg_lock_until_passed_check', true);
             $isUnlocked = true;
             $bgStatus = get_user_meta($uID);
