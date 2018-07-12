@@ -170,14 +170,14 @@ class Strider_Bikes_Background_Check{
             $lockVar = get_post_meta($cPageId, 'sb_bg_lock_until_passed_check', true);
             $isUnlocked = true;
             $bgStatus = get_user_meta($uID);
-            if ($bgStatus['user_bg_check_purchased'][0] != 1){
-                $isUnlocked = false;
-        }
             if($lockVar == 1){
                 if($bgStatus['user_bg_check_passed'][0] != 1){
                     $isUnlocked = false;
                 }
             } 
+            if ($bgStatus['user_bg_check_purchased'][0] != 1){
+                    $isUnlocked = false;
+            }
             return $isUnlocked;
         }
 
