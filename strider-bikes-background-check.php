@@ -168,6 +168,7 @@ class Strider_Bikes_Background_Check{
     function lp_unlock_check_ze_page2($cPageId){
             $uID = get_current_user_id();
             $lockVar = get_post_meta($cPageId, 'sb_bg_lock_until_passed_check', true);
+            $lockVar2 = get_post_meta($cPageId, "sb_bg_lock_until_puchased_check", true);
             $isUnlocked = true;
             $bgStatus = get_user_meta($uID);
             if($lockVar == 1){
@@ -175,7 +176,7 @@ class Strider_Bikes_Background_Check{
                     $isUnlocked = false;
                 }
             } 
-            if($lockVar == 1){
+            if($lockVar2 == 1){
                 if ($bgStatus['user_bg_check_purchased'][0] != 1){
                     $isUnlocked = false;
                 }
