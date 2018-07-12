@@ -175,8 +175,10 @@ class Strider_Bikes_Background_Check{
                     $isUnlocked = false;
                 }
             } 
-            if ($bgStatus['user_bg_check_purchased'][0] != 1){
+            if($lockVar == 1){
+                if ($bgStatus['user_bg_check_purchased'][0] != 1){
                     $isUnlocked = false;
+                }
             }
             return $isUnlocked;
         }
