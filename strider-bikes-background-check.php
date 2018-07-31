@@ -214,7 +214,7 @@ class Strider_Bikes_Background_Check{
         $courses = learn_press_get_all_courses();
         echo $courses;
         foreach($users as $i){
-            echo $i;
+            echo $i->ID;
             $bgStatus = get_user_meta($i->ID, 'sb_bg_check_passed', true);
             if($courses->have_posts()){
                 foreach($courses as $c){
