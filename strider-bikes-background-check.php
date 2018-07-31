@@ -216,10 +216,12 @@ class Strider_Bikes_Background_Check{
         );
         $courses = new WP_Query($args);
         foreach($users as $i){
+            echo $i;
             $bgStatus = get_user_meta($i->ID, 'sb_bg_check_passed', true);
             if($courses->have_posts()){
                 foreach($courses as $c){
-                    $lp_course = LP_Course::get_course($c->ID);
+                    echo $c;
+                    $lp_course = LP_Course::get_course($c);
                     $user_grade = $lp_course->evaluate_course_results($i->ID);
                     if($user_grade > $lp_course->passing_condition && $bgStatus == 1){
                         $out2 .= '<p>'.$i->display_name.'</p><p>'.$i->user_email.'</p>';
