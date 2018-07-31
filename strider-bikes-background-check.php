@@ -209,6 +209,20 @@ class Strider_Bikes_Background_Check{
             }
         }
         $out .= '</div>';
+        $out2 = '<div class="wrap"> <h2>Certified Instructors</h2>';
+        $args = array(
+            'post_type'=> LP_COURSE_CPT
+        );
+        $courses = new WP_Query($args);
+        foreach($users as $i){
+            $bgStatus = get_user_meta($i->ID, 'sb_bg_check_passed', true);
+            if($courses->have_posts()){
+                foreach($courses as $c){
+                    if 
+                }
+            }
+
+        }
         echo $out;
     }
     
