@@ -218,8 +218,8 @@ class Strider_Bikes_Background_Check{
             foreach($courses as $c){
                 $lp_course = LP_Course::get_course($c);
                 $user_grade = $lp_course->evaluate_course_results($i->ID);
-                echo $bgStatus[0];
-                if($user_grade > $lp_course->passing_condition && $bgStatus[0] == 1){
+                echo $bgStatus;
+                if($user_grade > $lp_course->passing_condition && $bgStatus != 0){
                     $out2 .= '<p>'.$i->display_name.'</p><p>'.$i->user_email.'</p>';
                     $out2 .= '<div> <a href="https://www.striderbikes.com/_education/wp-admin/user-edit.php?user_id='.$i->ID.'"><p>edit user</p></a> </div><br/>'; 
                 }
