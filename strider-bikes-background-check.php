@@ -216,17 +216,15 @@ class Strider_Bikes_Background_Check{
         foreach($users as $i){
             echo $i->ID;
             $bgStatus = get_user_meta($i->ID, 'sb_bg_check_passed', true);
-            if($courses->have_posts()){
-                foreach($courses as $c){
-                    echo $c;
-                    $lp_course = LP_Course::get_course($c);
-                    $user_grade = $lp_course->evaluate_course_results($i->ID);
-                    if($user_grade > $lp_course->passing_condition && $bgStatus == 1){
-                        $out2 .= '<p>'.$i->display_name.'</p><p>'.$i->user_email.'</p>';
-                        $out2 .= '<div> <a href="https://www.striderbikes.com/_education/wp-admin/user-edit.php?user_id='.$i->ID.'"><p>edit user</p></a> </div><br/>'; 
-                    }
+            foreach($courses as $c){
+                echo $c;
+                $lp_course = LP_Course::get_course($c);
+                $user_grade = $lp_course->evaluate_course_results($i->ID);
+                if($user_grade > $lp_course->passing_condition && $bgStatus == 1){
+                    $out2 .= '<p>'.$i->display_name.'</p><p>'.$i->user_email.'</p>';
+                    $out2 .= '<div> <a href="https://www.striderbikes.com/_education/wp-admin/user-edit.php?user_id='.$i->ID.'"><p>edit user</p></a> </div><br/>'; 
                 }
-            }
+        }
 
         }
         $out2 .= '</div>';
