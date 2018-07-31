@@ -209,6 +209,7 @@ class Strider_Bikes_Background_Check{
             }
         }
         $out .= '</div>';
+        echo $out;
         $out2 = '<div class="wrap"> <h2>Certified Instructors</h2>';
         $args = array(
             'post_type'=> LP_COURSE_CPT
@@ -229,7 +230,7 @@ class Strider_Bikes_Background_Check{
 
         }
         $out2 .= '</div>';
-        echo $out . $out2;
+        echo $out2;
     }
     
     function register_sb_bg_check_settings() {
