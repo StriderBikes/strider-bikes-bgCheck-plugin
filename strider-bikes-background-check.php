@@ -219,7 +219,7 @@ class Strider_Bikes_Background_Check{
                 $lp_course = LP_Course::get_course($c);
                 $user_grade = $lp_course->evaluate_course_results($i->ID);
                 //echo $user_grade . ' ' . $lp_course->passing_condition . ' ';
-                if($user_grade == 100 && $bgStatus == 1){
+                if($user_grade == 100 && $bgStatus == 1 && get_the_title($c) != 'Brand Enthusiast'){
                     $out2 .= '<p>'.$i->display_name.'</p><p>'.$i->user_email.'</p>' . '<p>'.get_the_title($c).': ' . $user_grade . '</p>';
                     $out2 .= '<div> <a href="https://www.striderbikes.com/_education/wp-admin/user-edit.php?user_id='.$i->ID.'"><p>edit user</p></a> </div><br/>'; 
                 }
