@@ -215,6 +215,7 @@ class Strider_Bikes_Background_Check{
             'post_type'=> LP_COURSE_CPT
         );
         $courses = new WP_Query($args);
+        echo $courses;
         foreach($users as $i){
             echo $i;
             $bgStatus = get_user_meta($i->ID, 'sb_bg_check_passed', true);
