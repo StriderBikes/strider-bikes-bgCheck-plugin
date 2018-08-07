@@ -285,7 +285,7 @@ class Strider_Bikes_Background_Check{
         if (!$cUserID){
             return;
         }
-        $userBGCheck = get_user_meta($cUserID, STRIDER_BIKES_BGCHECK_ORDER_KEY);
+        $userBGCheck = get_user_meta($cUserID, STRIDER_BIKES_BGCHECK_ORDER_KEY, true);
         $bgCheckPageURL = get_option('sb_bg_check_abg_api_baseurl');
         $out = '<div class="container-fluid">';
         if (sizeof($userBGCheck)<1){
