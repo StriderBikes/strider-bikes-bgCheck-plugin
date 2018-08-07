@@ -18,7 +18,7 @@
 
 <div>
 <?php if($userBGCheckStatus == 1){ ?>
-<h2 class="text-center">Congratulations You have passed your background check!</h2> <br />
+<!-- <h2 class="text-center">Congratulations You have passed your background check!</h2> <br /> -->
 <?php } else { ?>
 <h4> You have already filled out the preliminary information for your background check, if you would like to check your status click the button below </h4>
 <button class="sb-bg-order-check" data-id="<?php echo $userOrderID[0]; ?>" data-url="<?php echo admin_url( 'admin-ajax.php' );?>"
