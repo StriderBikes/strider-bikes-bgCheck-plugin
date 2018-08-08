@@ -199,7 +199,7 @@ class Strider_Bikes_Background_Check{
         $out = '<div class="wrap">';
         $users = get_users();
         foreach($users as $i){
-            $orderID = get_user_meta($i->ID,'sb_bg_check_canidate_order_id',true);
+            $orderID = get_user_meta($i->ID,'sb_bg_check_canidate_order_id');
             if($orderID>0){
                 $out .= '<p>'.$i->display_name.'</p><p>'.$i->user_email.'</p>';
                 $out .= '<div><button class="sb-bg-order-check-admin" data-url="'.admin_url( 'admin-ajax.php' ).'"
@@ -212,7 +212,6 @@ class Strider_Bikes_Background_Check{
         echo $out;
         $out2 = '<div class="wrap"> <h2>Certified Instructors</h2>';
         $courses = learn_press_get_all_courses();
-        echo $courses;
         foreach($users as $i){
             $bgStatus = get_user_meta($i->ID, 'user_bg_check_passed', true);
             foreach($courses as $c){
