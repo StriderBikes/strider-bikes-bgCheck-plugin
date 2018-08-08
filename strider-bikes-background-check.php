@@ -201,7 +201,7 @@ class Strider_Bikes_Background_Check{
         foreach($users as $i){
             $orderID = get_user_meta($i->ID,'sb_bg_check_canidate_order_id');
             if($orderID>0){
-                $out .= '<p>'.$i->display_name.'</p><p>'.$i->user_email.'</p>';
+                $out .= '<p>'.$i->display_name.'</p><p>'.$i->user_email. ' ' .$orderID[0].'</p>';
                 $out .= '<div><button class="sb-bg-order-check-admin" data-url="'.admin_url( 'admin-ajax.php' ).'"
                         data-id="'.$orderID[0].'" data-nonce="'.wp_create_nonce('sb_bg_check_order_status').'"> Check Status
                         </button></div>';
