@@ -444,7 +444,7 @@ class Strider_Bikes_Background_Check{
 
     function sb_bg_pre_gravity_form($form){
         $userID = get_current_user_id();
-        $metaUser = get_userData($userID);
+        $metaUser = get_userdata($userID);
         $url = 'https://api.accuratebackground.com/v3/candidate/';
         $data = array(
             'address' => $_POST['input_5_1'],
