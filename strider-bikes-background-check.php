@@ -199,11 +199,11 @@ class Strider_Bikes_Background_Check{
         $out = '<div class="wrap">';
         $users = get_users();
         foreach($users as $i){
-            $orderID = get_user_meta($i->ID,'sb_bg_check_canidate_order_id');
-            if($orderID>0){
-                $out .= '<p>'.$i->display_name.'</p><p>'.$i->user_email. ' ' .$orderID[0].'</p>';
+            $orderID = get_user_meta($i->ID,'sb_bg_check_canidate_order_id', true);
+            if($orderID){
+                $out .= '<p>'.$i->display_name.'</p><p>'.$i->user_email. ' ' .$orderID.'</p>';
                 $out .= '<div><button class="sb-bg-order-check-admin" data-url="'.admin_url( 'admin-ajax.php' ).'"
-                        data-id="'.$orderID[0].'" data-nonce="'.wp_create_nonce('sb_bg_check_order_status').'"> Check Status
+                        data-id="'.$orderID.'" data-nonce="'.wp_create_nonce('sb_bg_check_order_status').'"> Check Status
                         </button></div>';
                 $out .= '<div> <a href="https://www.striderbikes.com/_education/wp-admin/user-edit.php?user_id='.$i->ID.'"><p>edit user</p></a> </div>';          
             }
