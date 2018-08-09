@@ -213,17 +213,27 @@ class Strider_Bikes_Background_Check{
         $out2 = '<div class="wrap"> <h2>Certified Instructors</h2>';
         $courses = learn_press_get_all_courses();
         foreach($users as $i){
+            $certCourses = array();
             $bgStatus = get_user_meta($i->ID, 'user_bg_check_passed', true);
             foreach($courses as $c){
                 $lp_course = LP_Course::get_course($c);
                 $user_grade = $lp_course->evaluate_course_results($i->ID);
                 //echo $user_grade . ' ' . $lp_course->passing_condition . ' ';
                 if($user_grade == 100 && $bgStatus == 1 && get_the_title($c) != 'Brand Enthusiast'){
+                    $certCourses[] = $c;
+                    /*
                     $out2 .= '<p>'.$i->display_name.'</p><p>'.$i->user_email.'</p>' . '<p>'.get_the_title($c).': ' . $user_grade . '</p>';
                     $out2 .= '<div> <a href="https://www.striderbikes.com/_education/wp-admin/user-edit.php?user_id='.$i->ID.'"><p>edit user</p></a> </div><br/>'; 
+                    */
                 }
         }
-
+        if(sizeof($certCourses) > 0){
+            $out2 .= '<p>'.$i->display_name.'</p><p>'.$i->user_email.'</p> <p>Certified in: </p>';
+            foreach($certCourses as $c){
+                $out2 .= '<p>'.get_the_title($c).'</p>';
+            }
+            $out2 .= '<div> <a href="https://www.striderbikes.com/_education/wp-admin/user-edit.php?user_id='.$i->ID.'"><p>edit user</p></a> </div><br/>'; 
+            }
         }
         $out2 .= '</div>';
         echo $out2;
