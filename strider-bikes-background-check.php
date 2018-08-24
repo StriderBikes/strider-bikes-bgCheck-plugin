@@ -210,6 +210,9 @@ class Strider_Bikes_Background_Check{
         }
         $out .= '</div>';
         echo $out;
+        $this->check_certified_instructors($users);
+    }
+    function check_certified_instructors($users){
         $out2 = '<div class="wrap"> <h2>Certified Instructors</h2>';
         $courses = learn_press_get_all_courses();
         foreach($users as $i){
@@ -584,7 +587,19 @@ class Strider_Bikes_Background_Check{
                     <td>
                         <input type="checkbox" name="user_bg_check_purchased_bool" id="user_bg_check_purchased" value="1" <?php
                         if ( esc_attr( get_the_author_meta( 'user_bg_check_purchased', $profileuser->ID ) ) == "1"){?> checked = "checked"<?php } ?> />
-                        <br><span class="description"><?php _e('Check box if user has purchased the bg check (will automatically update on successful purchase)', 'text-domain'); ?></span>
+                        <br><span class="description">
+                        <?php _e('Check box if user has purchased the bg check (will automatically update on successful purchase)', 'text-domain'); ?>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="user_certified_instructor"><?php _e('Certified Instructor Status'); ?></label>
+                    </th>
+                    <td>
+                        <input type="checkbox" name="user_certified_instructor" id="user_is_certified_status" value="1" <?php
+                        if ( esc_attr( get_the_author_meta( 'user_is_certified_status', $profileuser->ID ) ) == "1"){?> checked = "checked"<?php } ?> />
+                        <br><span class="description"><?php _e('Box will be checked if the user is certified and a notice has been sent to the admin', 'text-domain'); ?></span>
                     </td>
                 </tr>
             </table>
