@@ -115,7 +115,7 @@ class Strider_Bikes_Background_Check{
         new RW_Meta_Box(
             apply_filters( 'sb_bg_lock_page_until_bgCheck', array(
                     'title'      => 'BackGround Check Page Lock',
-                    'post_types' => 'page',
+                    'post_types' => 'post',
                     'context'    => 'normal',
                     'priority'   => 'high',
                     'fields'     => array(
@@ -201,17 +201,47 @@ class Strider_Bikes_Background_Check{
         $out = '<div class="wrap">';
         $users = get_users();
         foreach($users as $i){
-            $orderID = get_user_meta($i->ID,'sb_bg_check_canidate_order_id',true);
-            if($orderID>0){
-                $out .= '<p>'.$i->display_name.'</p><p>'.$i->user_email.'</p>';
+            $orderID = get_user_meta($i->ID,STRIDER_BIKES_BGCHECK_ORDER_KEY, true);
+            if($orderID){
+                $out .= '<p>'.$i->display_name.'</p><p>'.$i->user_email. ' ' .$orderID.'</p>';
                 $out .= '<div><button class="sb-bg-order-check-admin" data-url="'.admin_url( 'admin-ajax.php' ).'"
-                        data-id="'.$orderID[0].'" data-nonce="'.wp_create_nonce('sb_bg_check_order_status').'"> Check Status
+                        data-id="'.$orderID.'" data-nonce="'.wp_create_nonce('sb_bg_check_order_status').'"> Check Status
                         </button></div>';
                 $out .= '<div> <a href="https://www.striderbikes.com/_education/wp-admin/user-edit.php?user_id='.$i->ID.'"><p>edit user</p></a> </div>';          
             }
         }
         $out .= '</div>';
         echo $out;
+        $this->check_certified_instructors($users);
+    }
+    function check_certified_instructors($users){
+        $out2 = '<div class="wrap"> <h2>Certified Instructors</h2>';
+        $courses = learn_press_get_all_courses();
+        foreach($users as $i){
+            $certCourses = array();
+            $bgStatus = get_user_meta($i->ID, 'user_bg_check_passed', true);
+            foreach($courses as $c){
+                $lp_course = LP_Course::get_course($c);
+                $user_grade = $lp_course->evaluate_course_results($i->ID);
+                //echo $user_grade . ' ' . $lp_course->passing_condition . ' ';
+                if($user_grade == 100 && $bgStatus == 1 && get_the_title($c) != 'Brand Enthusiast'){
+                    $certCourses[] = $c;
+                    /*
+                    $out2 .= '<p>'.$i->display_name.'</p><p>'.$i->user_email.'</p>' . '<p>'.get_the_title($c).': ' . $user_grade . '</p>';
+                    $out2 .= '<div> <a href="https://www.striderbikes.com/_education/wp-admin/user-edit.php?user_id='.$i->ID.'"><p>edit user</p></a> </div><br/>'; 
+                    */
+                }
+        }
+        if(sizeof($certCourses) > 0){
+            $out2 .= '<p>'.$i->display_name.'</p><p>'.$i->user_email.'</p> <p>Certified in: </p>';
+            foreach($certCourses as $c){
+                $out2 .= '<p>'.get_the_title($c).'</p>';
+            }
+            $out2 .= '<div> <a href="https://www.striderbikes.com/_education/wp-admin/user-edit.php?user_id='.$i->ID.'"><p>edit user</p></a> </div><br/>'; 
+            }
+        }
+        $out2 .= '</div>';
+        echo $out2;
     }
     
     function register_sb_bg_check_settings() {
@@ -269,7 +299,7 @@ class Strider_Bikes_Background_Check{
         if (!$cUserID){
             return;
         }
-        $userBGCheck = get_user_meta($cUserID, STRIDER_BIKES_BGCHECK_ORDER_KEY);
+        $userBGCheck = get_user_meta($cUserID, STRIDER_BIKES_BGCHECK_ORDER_KEY, true);
         $bgCheckPageURL = get_option('sb_bg_check_abg_api_baseurl');
         $out = '<div class="container-fluid">';
         if (sizeof($userBGCheck)<1){
@@ -429,7 +459,7 @@ class Strider_Bikes_Background_Check{
 
     function sb_bg_pre_gravity_form($form){
         $userID = get_current_user_id();
-        $metaUser = get_userData($userID);
+        $metaUser = get_userdata($userID);
         $url = 'https://api.accuratebackground.com/v3/candidate/';
         $data = array(
             'address' => $_POST['input_5_1'],
@@ -559,7 +589,19 @@ class Strider_Bikes_Background_Check{
                     <td>
                         <input type="checkbox" name="user_bg_check_purchased_bool" id="user_bg_check_purchased" value="1" <?php
                         if ( esc_attr( get_the_author_meta( 'user_bg_check_purchased', $profileuser->ID ) ) == "1"){?> checked = "checked"<?php } ?> />
-                        <br><span class="description"><?php _e('Check box if user has purchased the bg check (will automatically update on successful purchase)', 'text-domain'); ?></span>
+                        <br><span class="description">
+                        <?php _e('Check box if user has purchased the bg check (will automatically update on successful purchase)', 'text-domain'); ?>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="user_certified_instructor"><?php _e('Certified Instructor Status'); ?></label>
+                    </th>
+                    <td>
+                        <input type="checkbox" name="user_certified_instructor" id="user_is_certified_status" value="1" <?php
+                        if ( esc_attr( get_the_author_meta( 'user_is_certified_status', $profileuser->ID ) ) == "1"){?> checked = "checked"<?php } ?> />
+                        <br><span class="description"><?php _e('Box will be checked if the user is certified and a notice has been sent to the admin', 'text-domain'); ?></span>
                     </td>
                 </tr>
             </table>
