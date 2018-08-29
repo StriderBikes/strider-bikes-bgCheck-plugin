@@ -142,11 +142,13 @@ class Strider_Bikes_Background_Check{
     // site root url
     function restrict_until_complete_maybe(){
             global $wp_query;
-            $pID = $wp_query->get_queried_object_id();
-            $unlocked = $this->lp_unlock_check_ze_page2($pID);
-            if (!$unlocked){
-                wp_redirect(get_site_url());
-                exit;
+            if(!$wp_query->is_single()){
+                $pID = $wp_query->get_queried_object();
+                $unlocked = $this->lp_unlock_check_ze_page2($pID);
+                if (!$unlocked){
+                    wp_redirect(get_site_url());
+                    exit;
+                }
             }
         }
     // checks to see if A) the page is supposed to lock out users B) if the user has passed the bg check, if so it returns true, if
