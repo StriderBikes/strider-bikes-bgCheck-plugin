@@ -142,7 +142,7 @@ class Strider_Bikes_Background_Check{
     // site root url
     function restrict_until_complete_maybe(){
             global $wp_query;
-            if(!$wp_query->is_page()){
+            if($wp_query->is_page()){
                 $pID = $wp_query->get_queried_object_id();
                 $unlocked = $this->lp_unlock_check_ze_page2($pID);
                 if (!$unlocked){
