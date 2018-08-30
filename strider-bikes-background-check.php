@@ -93,6 +93,8 @@ class Strider_Bikes_Background_Check{
 
     }
 
+
+
     // hooks into the menu settup proccess prior to rendering, allows us to restrict and remove pages
     function add_menu_filter(){
         add_filter('nav_menu_link_attributes', array($this,'sb_bg_hide_appropriate_nav_links'), 10, 3);
@@ -562,7 +564,18 @@ class Strider_Bikes_Background_Check{
         if(current_user_can('edit_user', $user_id)){
             update_user_meta($user_id, 'user_bg_check_passed', $_POST['user_bg_check_passed_bool']);
             update_user_meta($user_id, 'user_bg_check_purchased', $_POST['user_bg_check_purchased_bool']);
+            $is_certified = get_user_meta($user_id, 'user_is_certified_status', true);
+            if(!$is_certified && $_POST['user_bg_check_passed'] ==1){
+                $passedCourse = check_if_passed_courses($user_id);
+                if($passedCourse > 1){
+                    update_user_meta($user_id, 'user_is_certified_status', 1);
+                }
+            }
         }
+    }
+
+    protected function check_if_passed_courses($uID){
+
     }
     function backgroundCheckFormLoader($atts){
         ob_start();
@@ -599,7 +612,7 @@ class Strider_Bikes_Background_Check{
                         <label for="user_certified_instructor"><?php _e('Certified Instructor Status'); ?></label>
                     </th>
                     <td>
-                        <input type="checkbox" name="user_certified_instructor" id="user_is_certified_status" value="1" <?php
+                        <input type="checkbox" name="user_is_certified_status_bool" id="user_is_certified_status" value="1" <?php
                         if ( esc_attr( get_the_author_meta( 'user_is_certified_status', $profileuser->ID ) ) == "1"){?> checked = "checked"<?php } ?> />
                         <br><span class="description"><?php _e('Box will be checked if the user is certified and a notice has been sent to the admin', 'text-domain'); ?></span>
                     </td>
