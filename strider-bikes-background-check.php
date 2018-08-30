@@ -70,6 +70,7 @@ class Strider_Bikes_Background_Check{
         add_action('wp_ajax_check_order_status', array($this, 'sb_bg_check_order_status'));
         add_action('wp', array($this, 'restrict_until_complete_maybe'));
         add_action('wp', array($this, 'add_menu_filter'));
+        add_action('wp', array($this, 'check_if_course_passed'),10, 3)
     }
     //hooks into on complete process of woo
 
@@ -239,7 +240,7 @@ class Strider_Bikes_Background_Check{
             $lp_course = LP_Course::get_course($c);
             $user_grade = $lp_course->evaluate_course_results($uID);
             //echo $user_grade . ' ' . $lp_course->passing_condition . ' ';
-            if($user_grade == 100 && get_the_title($c) != 'Brand Enthusiast'){
+            if($user_grade == 100 /*&& get_the_title($c) != 'Brand Enthusiast' */){
                 $certCourses[] = $c;
             }
         }
@@ -561,19 +562,35 @@ class Strider_Bikes_Background_Check{
         wp_enqueue_script( 'sb-background-check-ajax-script', untrailingslashit( plugins_url( '/', STRIDER_BIKES_BGCHECK_FILE ) )  . '/assets/sbbgCheck.js' , array( 'jquery' ) );
     }
     
+
+    function check_if_course_passed($item, $results, $uID){
+        $bgStatus = get_user_meta($uID, 'user_bg_check_passed', true);
+        if($bgStatus){
+            $this->check_for_new_cert($uID);
+        }
+    }
+
     function sb_bg_update_value($user_id){
         if(current_user_can('edit_user', $user_id)){
             update_user_meta($user_id, 'user_bg_check_passed', $_POST['user_bg_check_passed_bool']);
             update_user_meta($user_id, 'user_bg_check_purchased', $_POST['user_bg_check_purchased_bool']);
+            update_user_meta($user_id, 'user_is_certified_status', $_POST['user_is_certified_bool']);
+            if($_POST['user_bg_check_passed_bool'] == true){
+                $this->check_for_new_cert($user_id);
+            }
+        }
+    }
+
+    function check_for_new_cert($user_id){
             $is_certified = get_user_meta($user_id, 'user_is_certified_status', true);
-            if(!$is_certified && $_POST['user_bg_check_passed_bool'] == true){
+            if(!$is_certified){
                 $passedCourses = $this->get_certification_courses_passed($user_id);
                 if($passedCourses > 0){
+                    echo $passedCourses[0];
                     update_user_meta($user_id, 'user_is_certified_status', true);
                     $this->send_email_to_admin($user_id, $passedCourses);
                 }
             }
-        }
     }
 
     function send_email_to_admin($uID, $pCourses){
