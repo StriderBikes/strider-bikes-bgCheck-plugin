@@ -215,7 +215,6 @@ class Strider_Bikes_Background_Check{
             $certCourses = $this->get_certification_courses_passed($i->ID);
             $bgStatus = get_user_meta($uID, 'user_bg_check_passed', true);
             if(sizeof($certCourses) > 0 && $bgStatus == 1){
-                $out2 = '<div class="wrap"> <h2>Certified Instructors</h2>';
                 $out2 .= '<p>'.$i->display_name.'</p><p>'.$i->user_email.'</p> <p>Certified in: </p>';
                 foreach($certCourses as $c){
                     $out2 .= '<p>'.get_the_title($c).'</p>';
