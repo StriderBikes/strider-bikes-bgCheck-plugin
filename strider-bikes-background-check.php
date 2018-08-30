@@ -565,7 +565,7 @@ class Strider_Bikes_Background_Check{
 
     function check_if_course_passed($passed, $cID, $u){
         $bgStatus = get_user_meta($u->ID, 'user_bg_check_passed', true);
-        if($bgStatus && $passed){
+        if($bgStatus && $passed == 100){
             update_user_meta($u->ID, 'user_is_certified_status', true);
             $course = array();
             $course[] = $cID;
