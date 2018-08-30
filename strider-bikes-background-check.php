@@ -566,17 +566,17 @@ class Strider_Bikes_Background_Check{
             update_user_meta($user_id, 'user_bg_check_passed', $_POST['user_bg_check_passed_bool']);
             update_user_meta($user_id, 'user_bg_check_purchased', $_POST['user_bg_check_purchased_bool']);
             $is_certified = get_user_meta($user_id, 'user_is_certified_status', true);
-            if(!$is_certified && $_POST['user_bg_check_passed'] ==1){
-                $passedCourse = $this->get_certification_courses_passed($user_id);
-                if($passedCourse > 0){
-                    update_user_meta($user_id, 'user_is_certified_status', 1);
-                    $this->send_email_to_admin($user_id);
+            if(!$is_certified && $_POST['user_bg_check_passed_bool'] == true){
+                $passedCourses = $this->get_certification_courses_passed($user_id);
+                if($passedCourses > 0){
+                    update_user_meta($user_id, 'user_is_certified_status', true);
+                    $this->send_email_to_admin($user_id, $passedCourses);
                 }
             }
         }
     }
 
-    protected function send_email_to_admin($uID, $pCourses){
+    function send_email_to_admin($uID, $pCourses){
         $userData = get_userdata($uID);
         $m = 'The user: ' . $userData->user_login .' has been certified in: ';
         foreach($pCourses as $pC){
