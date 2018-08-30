@@ -566,9 +566,7 @@ class Strider_Bikes_Background_Check{
     function check_if_course_passed(){
         $uID = get_current_user_id();
         $bgStatus = get_user_meta($uID, 'user_bg_check_passed', true);
-        if($bgStatus == 1){
-            $this->check_for_new_cert($uID);
-        }
+         $this->check_for_new_cert($uID);
     }
 
     function sb_bg_update_value($user_id){
