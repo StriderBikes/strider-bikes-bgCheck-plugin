@@ -213,7 +213,7 @@ class Strider_Bikes_Background_Check{
                 $out .= '<div> <a href="https://www.striderbikes.com/_education/wp-admin/user-edit.php?user_id='.$i->ID.'"><p>edit user</p></a> </div>';          
             }
             $certCourses = $this->get_certification_courses_passed($i->ID);
-            $bgStatus = get_user_meta($uID, 'user_bg_check_passed', true);
+            $bgStatus = get_user_meta($i->ID, 'user_bg_check_passed', true);
             if(sizeof($certCourses) > 0 && $bgStatus == 1){
                 $out2 .= '<p>'.$i->display_name.'</p><p>'.$i->user_email.'</p> <p>Certified in: </p>';
                 foreach($certCourses as $c){
