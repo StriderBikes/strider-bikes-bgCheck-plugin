@@ -240,7 +240,7 @@ class Strider_Bikes_Background_Check{
             $lp_course = LP_Course::get_course($c);
             $user_grade = $lp_course->evaluate_course_results($uID);
             //echo $user_grade . ' ' . $lp_course->passing_condition . ' ';
-            if($user_grade == 100 /*&& get_the_title($c) != 'Brand Enthusiast' */){
+            if($user_grade == 100 /* && get_the_title($c) != 'Brand Enthusiast' */){
                 $certCourses[] = $c;
             }
         }
@@ -586,7 +586,6 @@ class Strider_Bikes_Background_Check{
             if(!$is_certified){
                 $passedCourses = $this->get_certification_courses_passed($user_id);
                 if($passedCourses > 0){
-                    echo $passedCourses[0];
                     update_user_meta($user_id, 'user_is_certified_status', true);
                     $this->send_email_to_admin($user_id, $passedCourses);
                 }
