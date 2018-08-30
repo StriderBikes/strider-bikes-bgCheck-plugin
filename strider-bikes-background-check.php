@@ -70,7 +70,7 @@ class Strider_Bikes_Background_Check{
         add_action('wp_ajax_check_order_status', array($this, 'sb_bg_check_order_status'));
         add_action('wp', array($this, 'restrict_until_complete_maybe'));
         add_action('wp', array($this, 'add_menu_filter'));
-        add_action('learn_press_user_complete_quiz_automation', array($this, 'check_if_course_passed'),10, 3);
+        add_filter('learn_press_user_passed_course_condition', array($this, 'check_if_course_passed'),10, 3);
     }
     //hooks into on complete process of woo
 
@@ -563,10 +563,13 @@ class Strider_Bikes_Background_Check{
     }
     
 
-    function check_if_course_passed($item, $results, $uID){
-        $bgStatus = get_user_meta($uID, 'user_bg_check_passed', true);
-        if($bgStatus){
-            $this->check_for_new_cert($uID);
+    function check_if_course_passed($passed, $cID, $u){
+        $bgStatus = get_user_meta($u->ID, 'user_bg_check_passed', true);
+        if($bgStatus && $passed){
+            update_user_meta($u->ID, 'user_is_certified_status', true);
+            $course = array();
+            $course[] = $cID;
+            $this->send_email_to_admin($u->ID, $course);
         }
     }
 
