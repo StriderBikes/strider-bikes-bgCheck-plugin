@@ -70,7 +70,7 @@ class Strider_Bikes_Background_Check{
         add_action('wp_ajax_check_order_status', array($this, 'sb_bg_check_order_status'));
         add_action('wp', array($this, 'restrict_until_complete_maybe'));
         add_action('wp', array($this, 'add_menu_filter'));
-        add_action('strider_bikes_check_if_course_passed', array($this, 'check_if_course_passed'),20, 1);
+        add_action('wp', array($this, 'check_if_course_passed'),20, 1);
     }
     //hooks into on complete process of woo
 
