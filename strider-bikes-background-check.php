@@ -232,7 +232,7 @@ class Strider_Bikes_Background_Check{
      * @input int user id
      * @out array of courses passed  
      */
-    protected function get_certification_courses_passed($uID){
+    function get_certification_courses_passed($uID){
         $courses = learn_press_get_all_courses();
         $certCourses = array();
         foreach($courses as $c){
@@ -243,7 +243,7 @@ class Strider_Bikes_Background_Check{
                 $certCourses[] = $c;
             }
         }
-        return $certCourses
+        return $certCourses;
     }
 
 
@@ -583,7 +583,7 @@ class Strider_Bikes_Background_Check{
             $m .= '<p>'.get_the_title($pC).'</p>';
         }
         $s = $userData->user_login .' has been certified';
-        wp_mail('jenn@striderbikes.com', $s, $m);
+        wp_mail(get_option('sb_bg_check_abg_admin_email'), $s, $m);
     }
 
     function backgroundCheckFormLoader($atts){
