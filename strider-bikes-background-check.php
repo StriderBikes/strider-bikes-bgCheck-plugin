@@ -240,7 +240,7 @@ class Strider_Bikes_Background_Check{
             $lp_course = LP_Course::get_course($c);
             $user_grade = $lp_course->evaluate_course_results($uID);
             //echo $user_grade . ' ' . $lp_course->passing_condition . ' ';
-            if($user_grade == 100 /* && get_the_title($c) != 'Brand Enthusiast' */){
+            if($user_grade == 100 && get_the_title($c) != 'Brand Enthusiast'){
                 $certCourses[] = $c;
             }
         }
@@ -595,7 +595,7 @@ class Strider_Bikes_Background_Check{
         $userData = get_userdata($uID);
         $m = 'The user: ' . $userData->user_login .' has been certified in: ';
         foreach($pCourses as $pC){
-            $m .= '<p>'.get_the_title($pC).'</p>';
+            $m .= get_the_title($pC) . ' ';
         }
         $s = $userData->user_login .' has been certified';
         wp_mail(get_option('sb_bg_check_abg_admin_email'), $s, $m);
