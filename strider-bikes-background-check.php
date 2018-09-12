@@ -51,6 +51,8 @@ class Strider_Bikes_Background_Check{
         $this->_plugin_template_path = STRIDER_BIKES_BGCHECK_PATH.'/templates/';
         $this->_plugin_url  = untrailingslashit( plugins_url( '/', STRIDER_BIKES_BGCHECK_FILE ));
 
+        require_once STRIDER_BIKES_BGCHECK_PATH . 'src/lp_sb_api.php';
+
         add_action( 'load-post.php', array( $this, 'sb_bg_add_meta_boxes' ), 0 );
         add_action( 'load-post-new.php', array( $this, 'sb_bg_add_meta_boxes' ), 0 );
         add_action('admin_menu', array($this, 'sb_bg_check_create_menu'));
@@ -199,7 +201,13 @@ class Strider_Bikes_Background_Check{
         //call register settings function
         add_action( 'admin_init', array($this, 'register_sb_bg_check_settings') );
     }
-    // canidates admin page
+    /**
+     * this does two things sepearte tasks while looping through all users for our bg-check candidates page
+     * firts it sees if they have ordered a bg check if so it adds the user to the bg check canidate page with a
+     * button to check their status, then it checks if the user has passed their bg check, if so it sees if the user 
+     * has passed any courses that would satisfy certification requirements, if so it displays them and the courses 
+     * they are certified in 
+     */
     function sb_bg_check_candidates_admin_page(){
         $out = '<div class="wrap">';
         $out2 = '<div class="wrap"> <h2>Certified Instructors</h2>';
