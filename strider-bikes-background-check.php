@@ -51,8 +51,6 @@ class Strider_Bikes_Background_Check{
         $this->_plugin_template_path = STRIDER_BIKES_BGCHECK_PATH.'/templates/';
         $this->_plugin_url  = untrailingslashit( plugins_url( '/', STRIDER_BIKES_BGCHECK_FILE ));
 
-        require_once STRIDER_BIKES_BGCHECK_PATH . 'src/lp_sb_api.php';
-
         add_action( 'load-post.php', array( $this, 'sb_bg_add_meta_boxes' ), 0 );
         add_action( 'load-post-new.php', array( $this, 'sb_bg_add_meta_boxes' ), 0 );
         add_action('admin_menu', array($this, 'sb_bg_check_create_menu'));
@@ -314,7 +312,7 @@ class Strider_Bikes_Background_Check{
         $userBGCheck = get_user_meta($cUserID, STRIDER_BIKES_BGCHECK_ORDER_KEY, true);
         $bgCheckPageURL = get_option('sb_bg_check_abg_api_baseurl');
         $out = '<div class="container-fluid">';
-        if (sizeof($userBGCheck)<1){
+        if ($userBGCheck == false){
             $out .= '<p> We noticed you have not submitted your information for 
             a background check yet, please visit the <a href="'.$bgCheckPageURL.'"> background check page </a> to fill out and 
             submit the form </p>';
@@ -573,7 +571,7 @@ class Strider_Bikes_Background_Check{
 
     function check_if_course_passed(){
         $uID = get_current_user_id();
-        $bgStatus = get_user_meta($uID, 'user_bg_check_passed', true);
+        //$bgStatus = get_user_meta($uID, 'user_bg_check_passed', true);
          $this->check_for_new_cert($uID);
     }
 
@@ -652,6 +650,7 @@ class Strider_Bikes_Background_Check{
             </table>
         <?php
         }
+        
     function sb_modify_background_check_row($value, $column_name, $user_id){
         switch($column_name){
             case 'bgCheckPassed':
