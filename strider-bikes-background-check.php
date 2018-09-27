@@ -585,8 +585,6 @@ class Strider_Bikes_Background_Check{
         $bgStatus = get_user_meta($uID, 'user_bg_check_passed', true);
         if($bgStatus == true){
             $this->check_for_new_cert($uID);
-        } else {
-            $this->
         }
     }
 
