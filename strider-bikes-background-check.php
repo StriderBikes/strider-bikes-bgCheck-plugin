@@ -606,7 +606,7 @@ class Strider_Bikes_Background_Check{
                 $passedCourses = $this->get_certification_courses_passed($user_id);
                 if(!empty($passedCourses)){
                     update_user_meta($user_id, 'user_is_certified_status', true);
-                    $this->send_email_to_admin($user_id, $passedCourses);
+                    //$this->send_email_to_admin($user_id, $passedCourses);
                 }
             }
     }
