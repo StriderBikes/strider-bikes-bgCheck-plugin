@@ -311,6 +311,18 @@ class Strider_Bikes_Background_Check{
         }
         $userBGCheck = get_user_meta($cUserID, STRIDER_BIKES_BGCHECK_ORDER_KEY, true);
         $bgCheckPageURL = get_option('sb_bg_check_abg_api_baseurl');
+        $passedCourses = $this->get_certification_courses_passed($cUserID);
+        $congrats = '';
+        if(!empty($passedCourses)){
+            $congrats = '<div class="container-fluid"><h2> Congrats you have passed: </h2>';
+            foreach($passedCourses as $pc){
+                $congrats += '<p>' . get_the_title($pc) . '</p>';
+            }
+            $congrats .= '</div>';
+        } else {
+            $congrats .= '<p>no courses passed</p>';
+        }
+        echo($congrats);
         $out = '<div class="container-fluid">';
         if ($userBGCheck == false){
             $out .= '<p> We noticed you have not submitted your information for 
@@ -571,8 +583,12 @@ class Strider_Bikes_Background_Check{
 
     function check_if_course_passed(){
         $uID = get_current_user_id();
-        //$bgStatus = get_user_meta($uID, 'user_bg_check_passed', true);
-         $this->check_for_new_cert($uID);
+        $bgStatus = get_user_meta($uID, 'user_bg_check_passed', true);
+        if($bgStatus == true){
+            $this->check_for_new_cert($uID);
+        } else {
+            $this->
+        }
     }
 
     function sb_bg_update_value($user_id){
