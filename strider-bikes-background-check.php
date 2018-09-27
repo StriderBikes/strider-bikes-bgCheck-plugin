@@ -327,7 +327,7 @@ class Strider_Bikes_Background_Check{
             $out .= '<p> We noticed you have not submitted your information for 
             a background check yet, please visit the <a href="'.$bgCheckPageURL.'"> background check page </a> to fill out and 
             submit the form </p>';
-            return $out . $congrats;
+            return $congrats . $out;
         } else {
             ob_start();
             require_once($this->_plugin_template_path.'sbbgCheckStatus.php');
