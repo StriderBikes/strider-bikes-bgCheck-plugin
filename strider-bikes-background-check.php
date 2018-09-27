@@ -320,7 +320,7 @@ class Strider_Bikes_Background_Check{
             }
             $congrats .= '</div>';
         } else {
-            $congrats .= '</div>';
+            $congrats .= '<p> no cert courses passed yet</p></div>';
         }
         $out = '<div class="container-fluid">';
         if ($userBGCheck == false){
@@ -329,6 +329,7 @@ class Strider_Bikes_Background_Check{
             submit the form </p>';
             return $congrats . $out;
         } else {
+            echo($congrats);
             ob_start();
             require_once($this->_plugin_template_path.'sbbgCheckStatus.php');
             return ob_get_clean();

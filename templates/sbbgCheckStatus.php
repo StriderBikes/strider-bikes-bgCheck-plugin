@@ -14,6 +14,7 @@
  $user = get_current_user_id();
  $userOrderID = get_user_meta($user,'sb_bg_check_canidate_order_id');
  $userBGCheckStatus = get_user_meta($cUserID, 'user_bg_check_passed', true);
+ 
  ?>
 
 <div>
