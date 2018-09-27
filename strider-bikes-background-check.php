@@ -320,7 +320,7 @@ class Strider_Bikes_Background_Check{
             }
             $congrats .= '</div>';
         } else {
-            $congrats .= '<p> no cert courses passed yet</p></div>';
+            $congrats .= '</div>';
         }
         $out = '<div class="container-fluid">';
         if ($userBGCheck == false){
