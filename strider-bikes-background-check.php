@@ -312,9 +312,8 @@ class Strider_Bikes_Background_Check{
         $userBGCheck = get_user_meta($cUserID, STRIDER_BIKES_BGCHECK_ORDER_KEY, true);
         $bgCheckPageURL = get_option('sb_bg_check_abg_api_baseurl');
         $passedCourses = $this->get_certification_courses_passed($cUserID);
-        $congrats = '';
+        $congrats = '<div class="container-fluid"><h2> Congrats you have passed: </h2>';
         if(!empty($passedCourses)){
-            $congrats = '<div class="container-fluid"><h2> Congrats you have passed: </h2>';
             foreach($passedCourses as $pc){
                 $congrats += '<p>' . get_the_title($pc) . '</p>';
             }
