@@ -322,8 +322,8 @@ class Strider_Bikes_Background_Check{
         } else {
             $congrats .= '<p>no courses passed</p>';
         }
-        echo($congrats);
-        $out = '<div class="container-fluid">';
+        //echo($congrats);
+        $out = $congrats . '<div class="container-fluid">';
         if ($userBGCheck == false){
             $out .= '<p> We noticed you have not submitted your information for 
             a background check yet, please visit the <a href="'.$bgCheckPageURL.'"> background check page </a> to fill out and 
