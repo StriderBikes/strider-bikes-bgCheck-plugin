@@ -118,7 +118,7 @@ class Strider_Bikes_Background_Check{
         new RW_Meta_Box(
             apply_filters( 'sb_bg_lock_page_until_bgCheck', array(
                     'title'      => 'BackGround Check Page Lock',
-                    'post_types' => 'post',
+                    'post_types' => 'page',
                     'context'    => 'normal',
                     'priority'   => 'high',
                     'fields'     => array(
