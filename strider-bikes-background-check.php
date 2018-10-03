@@ -176,13 +176,14 @@ class Strider_Bikes_Background_Check{
             $lockVar2 = get_post_meta($cPageId, "sb_bg_lock_until_puchased_check", true);
             $isUnlocked = true;
             $bgStatus = get_user_meta($uID);
+            $bgPurchase = get_user_meta($uID, 'user_bg_check_purchased', true);
             if($lockVar == 1){
                 if($bgStatus['user_bg_check_passed'][0] != 1){
                     $isUnlocked = false;
                 }
             } 
             if($lockVar2 == 1){
-                if ($bgStatus['user_bg_check_purchased'] != 1){
+                if ($bgPurchase != 1){
                     //$isUnlocked = false;
                     wp_redirect("https://www.striderbikes.com/_education/back-ground-check-product-page/");
                     exit;
